@@ -1,0 +1,477 @@
+/* ============================================================
+   Royesh Customizer Controls — Professional UI
+   Version 3.0
+   ============================================================ */
+
+/* ── Group Accordion Container ─────────────────────────────── */
+.royesh-group {
+    margin: 6px 0;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ── Accordion Header Button ────────────────────────────────── */
+.royesh-group__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #f6f7f7;
+    border: none;
+    border-bottom: 1px solid #dcdcde;
+    cursor: pointer;
+    text-align: right;
+    transition: background 0.15s;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1d2327;
+    letter-spacing: 0.2px;
+    user-select: none;
+}
+.royesh-group__header:hover {
+    background: #ededee;
+}
+.royesh-group__icon {
+    font-size: 13px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+.royesh-group__title {
+    flex: 1;
+}
+.royesh-group__chevron {
+    color: #787c82;
+    transition: transform 0.22s ease;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+.royesh-group--open .royesh-group__chevron {
+    transform: rotate(180deg);
+}
+
+/* ── Accordion Body ──────────────────────────────────────────── */
+.royesh-group .royesh-group__body {
+    display: none !important;
+    padding: 12px;
+    flex-direction: column;
+    gap: 10px;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+}
+.royesh-group.royesh-group--open .royesh-group__body {
+    display: flex !important;
+}
+
+
+/* ── Field Row ───────────────────────────────────────────────── */
+.royesh-group__field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.royesh-group__field-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #50575e;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+}
+.royesh-group__field-desc {
+    font-size: 10px;
+    color: #a7aaad;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ── Text / URL / Email / Number Inputs ─────────────────────── */
+.royesh-group__input {
+    width: 100%;
+    padding: 7px 9px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #1d2327;
+    background: #fcfcfc;
+    font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    direction: rtl;
+    box-sizing: border-box;
+}
+.royesh-group__input:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 2px rgba(34, 113, 177, 0.2);
+    outline: none;
+    background: #fff;
+}
+.royesh-group__input--textarea {
+    resize: vertical;
+    min-height: 72px;
+    line-height: 1.6;
+}
+.royesh-group__input--number {
+    width: 80px;
+}
+
+/* ── Color Picker ────────────────────────────────────────────── */
+.royesh-group__field--color .royesh-group__field-label {
+    margin-bottom: 2px;
+}
+.royesh-group__color-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.royesh-group__color-picker {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    padding: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: none;
+}
+.royesh-group__color-hex {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: monospace;
+    color: #1d2327;
+    background: #fcfcfc;
+    direction: ltr;
+    text-transform: uppercase;
+}
+.royesh-group__color-hex:focus {
+    border-color: #2271b1;
+    outline: none;
+}
+
+/* ── Toggle (Checkbox) ───────────────────────────────────────── */
+.royesh-group__field--checkbox {
+    gap: 0;
+}
+.royesh-group__toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 6px 0;
+}
+.royesh-group__toggle {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.royesh-group__toggle-track {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    background: #c3c4c7;
+    border-radius: 10px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+.royesh-group__toggle:checked + .royesh-group__toggle-track {
+    background: #014235;
+}
+.royesh-group__toggle-thumb {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transition: right 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.royesh-group__toggle:checked + .royesh-group__toggle-track .royesh-group__toggle-thumb {
+    right: calc(100% - 18px);
+}
+.royesh-group__toggle-text {
+    font-size: 12px;
+    color: #1d2327;
+    font-weight: 500;
+}
+
+/* ── Range Slider ────────────────────────────────────────────── */
+.royesh-group__range-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.royesh-group__range {
+    flex: 1;
+    accent-color: #014235;
+    cursor: pointer;
+    height: 3px;
+}
+.royesh-group__range-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #014235;
+    min-width: 28px;
+    text-align: center;
+}
+.royesh-group__range-unit {
+    font-size: 11px;
+    color: #787c82;
+}
+
+/* ── Select ─────────────────────────────────────────────────── */
+.royesh-group__field--select .royesh-group__input {
+    cursor: pointer;
+}
+
+/* ── Separator between fields ────────────────────────────────── */
+.royesh-group__field + .royesh-group__field {
+    padding-top: 8px;
+    border-top: 1px dashed #f0f0f1;
+}
+.royesh-group__field--checkbox + .royesh-group__field {
+    border-top-color: #f0f0f1;
+}
+
+/* ── Features Repeater ───────────────────────────────────────── */
+.royesh-repeater__list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+.royesh-repeater__item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 6px 8px;
+}
+.royesh-repeater__item.is-disabled {
+    opacity: 0.5;
+}
+.royesh-repeater__drag {
+    cursor: grab;
+    color: #b0b5bb;
+    font-size: 16px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.royesh-repeater__drag:active {
+    cursor: grabbing;
+}
+.royesh-repeater__enabled {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    accent-color: #014235;
+    cursor: pointer;
+}
+.royesh-repeater__text {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    color: #1d2327;
+    outline: none;
+    direction: rtl;
+    font-family: inherit;
+    padding: 0 2px;
+}
+.royesh-repeater__text:focus {
+    background: #fff;
+    border-radius: 3px;
+    padding: 2px 5px;
+    box-shadow: 0 0 0 1px #2271b1;
+}
+.royesh-repeater__delete {
+    background: none;
+    border: none;
+    color: #c3c4c7;
+    cursor: pointer;
+    font-size: 11px;
+    flex-shrink: 0;
+    padding: 3px 5px;
+    border-radius: 3px;
+    transition: color 0.15s, background 0.15s;
+    line-height: 1;
+}
+.royesh-repeater__delete:hover {
+    color: #d63638;
+    background: #fce8e8;
+}
+.royesh-repeater__add {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding: 7px 10px;
+    background: #f6f7f7;
+    border: 1px dashed #b0b5bb;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #50575e;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    justify-content: center;
+}
+.royesh-repeater__add:hover {
+    border-color: #014235;
+    color: #014235;
+    background: #f0f7f5;
+}
+
+/* ============================================================
+   Header Nav Repeater — آیتم‌های منوی هدر
+   ============================================================ */
+.royesh-nav-repeater__list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.royesh-nav-item {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.royesh-nav-item:hover {
+    border-color: #8c8f94;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.royesh-nav-item--disabled {
+    opacity: 0.5;
+}
+
+/* ── هدر کارت (نمایش آیکون + نام + اکشن‌ها) ── */
+.royesh-nav-item__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    background: #f6f7f7;
+    cursor: default;
+    min-height: 40px;
+}
+.royesh-nav-item__drag {
+    color: #aaa;
+    cursor: grab;
+    font-size: 16px;
+    padding: 0 2px;
+    flex-shrink: 0;
+}
+.royesh-nav-item__drag:active { cursor: grabbing; }
+
+.royesh-nav-item__preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: #e8e2d2;
+    border-radius: 5px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.royesh-nav-item__preview svg,
+.royesh-nav-item__preview img {
+    width: 14px;
+    height: 14px;
+}
+
+.royesh-nav-item__label {
+    flex: 1;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1d2327;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.royesh-nav-item__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+.royesh-nav-item__actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    line-height: 1;
+    transition: background 0.12s;
+}
+.royesh-nav-item__actions button:hover {
+    background: #e2e4e7;
+}
+.royesh-nav-item__delete-btn { color: #b32d2e !important; }
+.royesh-nav-item__delete-btn:hover { background: #fce8e8 !important; }
+
+/* ── بدنه قابل توسعه (فرم ویرایش) ── */
+.royesh-nav-item__body {
+    padding: 10px 12px;
+    border-top: 1px solid #f0f0f1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.royesh-nav-item__field {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.royesh-nav-item__field > label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #50575e;
+    text-transform: none;
+    margin: 0;
+}
+.royesh-nav-item__input {
+    width: 100%;
+    padding: 5px 8px;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: inherit;
+    background: #fff;
+    color: #1d2327;
+    transition: border-color 0.12s, box-shadow 0.12s;
+    box-sizing: border-box;
+}
+.royesh-nav-item__input:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 2px rgba(34, 113, 177, 0.15);
+    outline: none;
+}
+textarea.royesh-nav-item__input {
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* ── Drag placeholder ── */
+.royesh-nav-item.sortable-placeholder {
+    height: 42px;
+    background: #f0f7f5;
+    border: 2px dashed #014235;
+    border-radius: 6px;
+    visibility: visible;
+}
