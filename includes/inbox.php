@@ -128,12 +128,40 @@ add_action('admin_menu', 'royesh_register_inbox_menu');
 // ────────────────────────────────────────────────────────────────
 
 function royesh_render_inbox_inline_styles() {
+    wp_enqueue_style('dashicons');
     ?>
     <style id="royesh-inbox-styles">
         .royesh-wrap,
-        .royesh-wrap * {
-            font-family: inherit !important;
+        .royesh-wrap input,
+        .royesh-wrap select,
+        .royesh-wrap textarea,
+        .royesh-wrap button,
+        .royesh-wrap a,
+        .royesh-wrap label,
+        .royesh-wrap p,
+        .royesh-wrap span:not(.dashicons),
+        .royesh-wrap h1,
+        .royesh-wrap h2,
+        .royesh-wrap h3,
+        .royesh-wrap td,
+        .royesh-wrap th {
+            font-family: inherit;
             box-sizing: border-box;
+        }
+
+        /* تضمین ۱۰۰٪ نمایش Dashicons های وردپرس */
+        .royesh-wrap .dashicons,
+        .royesh-wrap .dashicons-before:before {
+            font-family: dashicons !important;
+            display: inline-block !important;
+            line-height: 1 !important;
+            speak: never;
+            font-style: normal !important;
+            font-weight: 400 !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .royesh-wrap {

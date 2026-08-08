@@ -297,9 +297,26 @@ function royesh_render_page_metabox($post) {
     <style>
         /* استفاده از فونت سراسری پنل مدیریت برای تمام اجزا بدون تعیین فونت دستی */
         .royesh-mb-wrap,
-        .royesh-mb-wrap * {
-            font-family: inherit !important;
+        .royesh-mb-wrap input,
+        .royesh-mb-wrap select,
+        .royesh-mb-wrap textarea,
+        .royesh-mb-wrap button,
+        .royesh-mb-wrap a,
+        .royesh-mb-wrap label,
+        .royesh-mb-wrap p,
+        .royesh-mb-wrap span:not(.dashicons),
+        .royesh-mb-wrap h2,
+        .royesh-mb-wrap h3,
+        .royesh-mb-wrap h4 {
+            font-family: inherit;
             box-sizing: border-box;
+        }
+
+        .royesh-mb-wrap .dashicons,
+        .royesh-mb-wrap .dashicons-before:before {
+            font-family: dashicons !important;
+            display: inline-block !important;
+            line-height: 1 !important;
         }
 
         .royesh-mb-wrap {
