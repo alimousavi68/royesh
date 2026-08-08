@@ -10,9 +10,9 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-$phone = get_theme_mod('royesh_phone', '۰۲۱-۶۵۲۵۴۱۲۲');
+$phone   = get_theme_mod('royesh_phone', '۰۲۱ ۵۵۵ ۸۴۶۵');
 $phone_raw = preg_replace('/[^\d\+]/', '', $phone);
-$email = get_theme_mod('royesh_email', 'info@royeshcapital.com');
+$email   = get_theme_mod('royesh_email', 'info@royeshcapital.com');
 $address = get_theme_mod('royesh_address', 'تهران، میدان ونک، خیابان ملاصدرا، پلاک ۴۲');
 ?>
 
