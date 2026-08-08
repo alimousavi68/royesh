@@ -542,5 +542,40 @@
             });
         }
 
+        // 12. Blog & News Swiper Slider Initialization
+        if (typeof Swiper !== 'undefined' && document.querySelector('.blog-swiper')) {
+            new Swiper('.blog-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 24,
+                loop: true,
+                centeredSlides: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-btn-next',
+                    prevEl: '.swiper-btn-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 24,
+                        centeredSlides: false,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 28,
+                        centeredSlides: true,
+                    },
+                },
+            });
+        }
+
     });
 })();
