@@ -149,38 +149,44 @@ $captcha = royesh_generate_captcha();
                     ></textarea>
                 </div>
 
-                <!-- Math CAPTCHA -->
-                <div class="col-span-1 md:col-span-2">
-                    <div class="royesh-captcha-row">
-                        <span class="royesh-captcha-question" id="royesh-captcha-question-home"><?php echo esc_html($captcha['question']); ?></span>
+                <!-- Feedback Alert Container -->
+                <div id="royesh-home-contact-feedback" class="hidden col-span-1 md:col-span-2 p-4 rounded-2xl text-sm font-sans my-1"></div>
+
+                <!-- Math CAPTCHA & Submit Button Row -->
+                <div class="col-span-1 md:col-span-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-1.5">
+                    <!-- Compact Math CAPTCHA Pill -->
+                    <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-2.5 bg-white px-4 py-2.5 rounded-full border border-[#E2DDD4] shadow-sm">
+                        <span class="text-xs font-bold text-[#004F40] whitespace-nowrap" id="royesh-captcha-question-home"><?php echo esc_html($captcha['question']); ?></span>
+                        <span class="text-gray-400 font-bold text-xs">=</span>
                         <input
                             type="number"
                             name="captcha_answer"
                             id="royesh-captcha-answer-home"
-                            class="royesh-captcha-input"
+                            class="w-14 h-8 text-center bg-[#FAF8F4] border border-[#E2DDD4] rounded-lg text-sm font-bold text-gray-800 focus:outline-none focus:border-[#004F40]"
                             required
                             min="0"
                             max="18"
-                            placeholder="?"
+                            placeholder="؟"
                             autocomplete="off"
                         />
-                        <button type="button" class="royesh-captcha-refresh"
+                        <button type="button" class="text-gray-400 hover:text-[#004F40] transition-colors p-1"
                             id="royesh-captcha-refresh-home"
                             title="<?php esc_attr_e('سوال جدید', 'royesh'); ?>"
-                            aria-label="<?php esc_attr_e('دریافت سوال کپچای جدید', 'royesh'); ?>">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            aria-label="<?php esc_attr_e('دریافت سوال جدید', 'royesh'); ?>">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
                                 <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
                             </svg>
                         </button>
                     </div>
-                </div>
 
-                <!-- Submit -->
-                <div class="col-span-1 md:col-span-2">
+                    <!-- Submit Button -->
                     <button type="submit"
-                        class="w-full bg-[#004F40] hover:bg-[#003b30] text-white font-bold py-4 rounded-full transition-colors mt-2 font-sans text-center transition-all duration-300 hover:scale-[1.01] shadow-md cursor-pointer">
-                        <?php esc_html_e('ثبت درخواست', 'royesh'); ?>
+                        class="w-full sm:flex-1 bg-[#004F40] hover:bg-[#003b30] text-white font-bold py-3.5 px-8 rounded-full transition-all duration-300 hover:scale-[1.01] shadow-md cursor-pointer text-sm font-sans flex items-center justify-center gap-2">
+                        <span><?php esc_html_e('ثبت درخواست', 'royesh'); ?></span>
+                        <svg class="w-4 h-4 -rotate-90" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </button>
                 </div>
             </form>

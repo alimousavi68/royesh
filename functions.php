@@ -31,6 +31,7 @@ $royesh_includes = [
     '/includes/template-tags.php',  // توابع نمایش تگ‌های پویا
     '/includes/ajax-handlers.php',  // هندلرهای فرم و پردازش AJAX
     '/includes/inbox.php',          // صندوق پیام داخلی مدیریت
+    '/includes/page-metaboxes.php', // متاباکس‌های اختصاصی و تنظیمات پیشرفته برگه‌ها
 ];
 
 foreach ($royesh_includes as $file) {

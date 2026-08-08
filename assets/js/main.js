@@ -1,211 +1,221 @@
-/* ==========================================================================
-   Royesh Economic Group - Unified JavaScript
-   ========================================================================== */
+/**
+ * Main Theme JavaScript
+ * 
+ * @package Royesh
+ * @version 1.5.1
+ */
 
 (function () {
-    document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
 
-        // 1. Mobile Hamburger Menu Drawer Toggle
-        const hamburgerBtn = document.getElementById('v-hamburger-btn');
-        const hamburgerIcon = document.getElementById('v-hamburger-icon');
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        // 0. Header Entrance Animations
+        const headerAnimElements = document.querySelectorAll('.v-header-animate');
+        if (headerAnimElements.length > 0) {
+            headerAnimElements.forEach(el => {
+                const delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+                setTimeout(() => {
+                    el.classList.add('v-active', 'v-revealed');
+                }, delay + 40);
+            });
+        }
+
+        // Hero Content Entrance Animations
+        const heroFadeElements = document.querySelectorAll('.v-hero-fade');
+        if (heroFadeElements.length > 0) {
+            heroFadeElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('v-active', 'v-revealed');
+                }, 100 + (index * 120));
+            });
+        }
+
+        // Features Bar Entrance Animations
+        const featuresBar = document.querySelectorAll('.v-features-bar-fade');
+        if (featuresBar.length > 0) {
+            featuresBar.forEach(el => {
+                setTimeout(() => {
+                    el.classList.add('v-active', 'v-revealed');
+                }, 350);
+            });
+        }
+
+        const featureItems = document.querySelectorAll('.v-feature-item');
+        if (featureItems.length > 0) {
+            featureItems.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('v-active', 'v-revealed');
+                }, 450 + (index * 80));
+            });
+        }
+
+        // 1. Mobile Menu Toggle
+        const menuToggleBtn = document.getElementById('v-menu-toggle');
         const mobileMenu = document.getElementById('v-mobile-menu');
 
-        if (hamburgerBtn && mobileMenu && hamburgerIcon) {
-            hamburgerBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
+        if (menuToggleBtn && mobileMenu) {
+            menuToggleBtn.addEventListener('click', function () {
                 const isHidden = mobileMenu.classList.contains('hidden');
-
                 if (isHidden) {
-                    // Open animation sequence
                     mobileMenu.classList.remove('hidden');
-                    // Force reflow
-                    mobileMenu.offsetHeight;
-                    // Trigger styles
-                    mobileMenu.classList.remove('scale-y-95', 'opacity-0');
-                    mobileMenu.classList.add('scale-y-100', 'opacity-100');
-
-                    // transform hamburger into an X
-                    hamburgerIcon.innerHTML = `
-                        <line x1="18" x2="6" y1="6" y2="18"></line>
-                        <line x1="6" x2="18" y1="6" y2="18"></line>
-                    `;
+                    menuToggleBtn.setAttribute('aria-expanded', 'true');
                 } else {
-                    closeMenu();
+                    mobileMenu.classList.add('hidden');
+                    menuToggleBtn.setAttribute('aria-expanded', 'false');
                 }
             });
+        }
 
-            // Close menu if user clicks outside
-            document.addEventListener('click', function (e) {
-                if (!mobileMenu.classList.contains('hidden')) {
-                    const isClickInside = mobileMenu.contains(e.target) || hamburgerBtn.contains(e.target);
-                    if (!isClickInside) {
-                        closeMenu();
-                    }
-                }
-            });
-
-            function closeMenu() {
-                mobileMenu.classList.remove('scale-y-100', 'opacity-100');
-                mobileMenu.classList.add('scale-y-95', 'opacity-0');
-
-                // Return hamburger to original state
-                hamburgerIcon.innerHTML = `
-                    <line x1="4" x2="20" y1="12" y2="12"></line>
-                    <line x1="4" x2="20" y1="6" y2="6"></line>
-                    <line x1="4" x2="20" y1="18" y2="18"></line>
-                `;
-
-                // Hide completely after transition completes
-                setTimeout(() => {
-                    if (mobileMenu.classList.contains('opacity-0')) {
+        // 2. Smooth Scroll for internal navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#' || !targetId.startsWith('#')) return;
+                
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    e.preventDefault();
+                    targetEl.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                         mobileMenu.classList.add('hidden');
+                        if (menuToggleBtn) menuToggleBtn.setAttribute('aria-expanded', 'false');
                     }
-                }, 200); // Wait matches CSS duration-200
-            }
-        }
-
-        // 1.5. Staggered load for the Header Elements
-        const headerAnimates = document.querySelectorAll('.v-header-animate');
-        headerAnimates.forEach(function (element) {
-            const delay = element.getAttribute('data-delay') || 0;
-            setTimeout(function () {
-                element.classList.add('v-active');
-            }, parseInt(delay));
+                }
+            });
         });
 
-        // 2. Staggered load for the Hero Content (tagline, title, description, actions)
-        const heroFaders = document.querySelectorAll('.v-hero-fade');
-        heroFaders.forEach(function (element, index) {
-            setTimeout(function () {
-                element.classList.add('v-active');
-            }, 100 + (index * 150)); // smooth spacing
-        });
-
-        // 3. Trigger Features Bar Slide Up after Hero finishes initial load
-        const featuresBar = document.getElementById('v-features-bar');
-        if (featuresBar) {
-            setTimeout(function () {
-                featuresBar.classList.add('v-active');
-
-                // Sequential load of individual feature items from Right to Left (staggered)
-                const featureItems = document.querySelectorAll('.v-feature-item');
-                featureItems.forEach(function (item, index) {
-                    setTimeout(function () {
-                        item.classList.add('v-active');
-                    }, 200 + (index * 130)); // premium responsive delay spacing
+        // 3. Scroll Reveal Animations (Intersection Observer)
+        const revealElements = document.querySelectorAll('.v-reveal');
+        if ('IntersectionObserver' in window && revealElements.length > 0) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('v-active', 'v-revealed');
+                        observer.unobserve(entry.target);
+                    }
                 });
+            }, {
+                root: null,
+                threshold: 0.05,
+                rootMargin: '0px 0px 50px 0px'
+            });
 
-            }, 800); // delays perfectly matching hero layout sequence
+            revealElements.forEach(el => revealObserver.observe(el));
+        } else {
+            // Fallback: reveal all immediately
+            revealElements.forEach(el => el.classList.add('v-active', 'v-revealed'));
         }
 
-        // 4. Initialize Swiper Slider (Blog/News Section)
-        if (document.querySelector('.blog-swiper')) {
-            const swiper = new Swiper('.blog-swiper', {
-                slidesPerView: 1,
-                centeredSlides: true,
-                loop: false,
-                initialSlide: 0,
-                spaceBetween: 20,
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.swiper-btn-next',
-                    prevEl: '.swiper-btn-prev',
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 1.5,
-                        spaceBetween: 30,
-                        centeredSlides: true,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 40,
-                        centeredSlides: false,
-                    }
+        // 4. Header Shadow on Scroll (Preserving the warm luxury brand color)
+        const mainHeader = document.querySelector('header');
+        if (mainHeader) {
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 15) {
+                    mainHeader.classList.add('shadow-md');
+                } else {
+                    mainHeader.classList.remove('shadow-md');
                 }
-            });
+            }, { passive: true });
         }
 
-        // 5. Scroll Reveal System using Intersection Observer
-        const revealCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('v-active');
-                    // Remove transition-delay classes after the entrance transition finishes (1.2s duration + up to 0.5s delay)
-                    setTimeout(() => {
-                        entry.target.classList.remove('v-delay-100', 'v-delay-200', 'v-delay-300', 'v-delay-400', 'v-delay-500');
-                    }, 2000);
-                    // Unobserve to keep performance optimal after revealing
-                    observer.unobserve(entry.target);
+        // 5. Parallax Letters in Divider Section (Optimized RAF & will-change)
+        const dividerSection = document.getElementById('royesh-divider-parallax');
+        const parallaxLetters = document.querySelectorAll('.parallax-letter');
+
+        if (dividerSection && parallaxLetters.length > 0) {
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            const updateParallax = () => {
+                const rect = dividerSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                // Only calculate if the section is approaching or in viewport
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const sectionCenter = rect.top + rect.height / 2;
+                    const screenCenter = windowHeight / 2;
+                    const distanceFromCenter = (sectionCenter - screenCenter) / (windowHeight / 2);
+
+                    parallaxLetters.forEach(letter => {
+                        const speed = parseFloat(letter.getAttribute('data-speed')) || 0.1;
+                        const direction = parseFloat(letter.getAttribute('data-direction')) || 1;
+                        
+                        const translateY = distanceFromCenter * speed * 120 * direction;
+                        const rotate = distanceFromCenter * speed * 8 * direction;
+                        
+                        letter.style.transform = `translate3d(0, ${translateY.toFixed(2)}px, 0) rotate(${rotate.toFixed(2)}deg)`;
+                    });
                 }
-            });
-        };
 
-        const revealObserver = new IntersectionObserver(revealCallback, {
-            root: null, // viewport
-            threshold: 0.1, // trigger when 10% is visible
-            rootMargin: "0px 0px -60px 0px"
-        });
+                ticking = false;
+            };
 
-        document.querySelectorAll('.v-reveal').forEach(el => revealObserver.observe(el));
+            window.addEventListener('scroll', () => {
+                lastScrollY = window.scrollY;
+                if (!ticking) {
+                    window.requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }, { passive: true });
+            
+            // Initial calculation
+            updateParallax();
+        }
 
-        // 6. Smooth Scroll Parallax System
+        // 6. Luxury Parallax for Hero & Philosophy Section Images
+        const heroSection = document.getElementById('royesh-hero-parallax');
+        const heroMainBadge = document.querySelector('.v-hero-badge');
+        const heroBadgeLeft = document.querySelector('.v-hero-badge-left');
+        const heroBadgeRight = document.querySelector('.v-hero-badge-right');
+        const heroImageMain = document.querySelector('.v-hero-img-main');
+        const philosophyCollage = document.getElementById('philosophy-collage');
+
         let ticking = false;
 
         const updateParallax = () => {
-            const currentScrollY = window.scrollY || window.pageYOffset;
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
 
-            // A. Hero Background Parallax
-            const heroBg = document.getElementById('v-hero-bg');
-            if (heroBg) {
-                // Subtle downward movement
-                heroBg.style.transform = `translate3d(0, ${currentScrollY * 0.15}px, 0) scale(1.05)`;
-            }
-
-            // B. Value Creation Collage Parallax
-            const valCollage = document.getElementById('v-val-collage-col');
-            if (valCollage) {
-                const rect = valCollage.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const relativeScroll = window.innerHeight - rect.top;
-
-                    // Image 1 (Central Arch - Slow rise)
-                    const img1 = valCollage.querySelector('img:nth-child(2)');
-                    if (img1) img1.style.transform = `translate3d(0, ${relativeScroll * -0.03}px, 0)`;
-
-                    // Image 2 (Top Right - Faster rise)
-                    const img2 = valCollage.querySelector('img:nth-child(3)');
-                    if (img2) img2.style.transform = `translate3d(0, ${relativeScroll * -0.06}px, 0)`;
-
-                    // Sprout Video Container (Bottom Right - Very slow sink)
-                    const videoCont = document.getElementById('v-val-video-container');
-                    if (videoCont) videoCont.style.transform = `translate3d(0, ${relativeScroll * 0.02}px, 0)`;
+            // Hero Section Parallax
+            if (heroSection) {
+                const heroRect = heroSection.getBoundingClientRect();
+                if (heroRect.bottom > 0 && heroRect.top < windowHeight) {
+                    if (heroMainBadge) {
+                        heroMainBadge.style.transform = `translate3d(0, ${scrollY * 0.08}px, 0)`;
+                    }
+                    if (heroBadgeLeft) {
+                        heroBadgeLeft.style.transform = `translate3d(0, ${scrollY * 0.12}px, 0)`;
+                    }
+                    if (heroBadgeRight) {
+                        heroBadgeRight.style.transform = `translate3d(0, ${scrollY * 0.05}px, 0)`;
+                    }
+                    if (heroImageMain) {
+                        heroImageMain.style.transform = `translate3d(0, ${scrollY * 0.04}px, 0)`;
+                    }
                 }
             }
 
-            // C. Brand Philosophy Collage Parallax
-            const philosophyCollage = document.getElementById('v-philosophy-collage');
+            // Brand Philosophy Section Floating Elements
             if (philosophyCollage) {
-                const rect = philosophyCollage.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const relativeScroll = window.innerHeight - rect.top;
+                const philRect = philosophyCollage.getBoundingClientRect();
+                if (philRect.top < windowHeight && philRect.bottom > 0) {
+                    const relativeScroll = (windowHeight - philRect.top);
 
-                    // Left Image / Wrapper (Grayscale capsule - Slow rise)
+                    // Left Image
                     const imgLeft = philosophyCollage.querySelector('.v-parallax-left') || philosophyCollage.querySelector('img:nth-child(1)');
                     if (imgLeft) imgLeft.style.transform = `translate3d(0, ${relativeScroll * -0.04}px, 0)`;
 
-                    // Right Image (Main capsule - Faster rise)
+                    // Right Image
                     const imgRight = philosophyCollage.querySelector('.v-parallax-right') || philosophyCollage.querySelector('img:nth-child(2)');
                     if (imgRight) imgRight.style.transform = `translate3d(0, ${relativeScroll * -0.07}px, 0)`;
 
-                    // Floating Green Banner (Slow float up)
+                    // Floating Green Banner
                     const banner = philosophyCollage.querySelector('.v-parallax-banner') || philosophyCollage.querySelector('.bg-\\[\\#004F40\\]');
                     if (banner) banner.style.transform = `translate3d(0, ${relativeScroll * -0.10}px, 0)`;
                 }
@@ -226,7 +236,7 @@
         if (canvas) {
             const ctx = canvas.getContext('2d');
             let particles = [];
-            const particleCount = 20; // Subtle, not overcrowded
+            const particleCount = 20;
             
             const resizeCanvas = () => {
                 const rect = canvas.getBoundingClientRect();
@@ -240,21 +250,20 @@
             class Particle {
                 constructor() {
                     this.reset();
-                    // Distribute initially across screen height
                     this.y = Math.random() * canvas.height;
                 }
                 
                 reset() {
                     this.x = Math.random() * canvas.width;
                     this.y = canvas.height + Math.random() * 20;
-                    this.size = Math.random() * 15 + 4; // various sizes for depth of field (bokeh)
-                    this.speedY = -(Math.random() * 0.18 + 0.04); // ultra slow motion
-                    this.speedX = (Math.random() - 0.5) * 0.06; // slow sway
+                    this.size = Math.random() * 15 + 4;
+                    this.speedY = -(Math.random() * 0.18 + 0.04);
+                    this.speedX = (Math.random() - 0.5) * 0.06;
                     this.alpha = 0;
-                    this.targetAlpha = Math.random() * 0.35 + 0.15; // subtle opacity
+                    this.targetAlpha = Math.random() * 0.35 + 0.15;
                     this.fadeSpeed = Math.random() * 0.004 + 0.001;
                     this.life = 0;
-                    this.maxLife = Math.random() * 800 + 450; // long life
+                    this.maxLife = Math.random() * 800 + 450;
                 }
                 
                 update() {
@@ -262,32 +271,32 @@
                     this.x += this.speedX;
                     this.life++;
                     
-                    // Fade in at start
-                    if (this.alpha < this.targetAlpha && this.life < this.maxLife - 100) {
-                        this.alpha += this.fadeSpeed;
+                    if (this.life < 80) {
+                        this.alpha = Math.min(this.targetAlpha, this.alpha + this.fadeSpeed * 2);
+                    } else if (this.life > this.maxLife - 100) {
+                        this.alpha = Math.max(0, this.alpha - this.fadeSpeed * 1.5);
                     }
                     
-                    // Fade out near end of life or top of canvas
-                    if (this.life > this.maxLife - 100 || this.y < 50) {
-                        this.alpha -= this.fadeSpeed;
-                    }
-                    
-                    if (this.alpha <= 0 || this.y < 0) {
+                    if (this.life >= this.maxLife || this.y < -30 || this.alpha <= 0 && this.life > 100) {
                         this.reset();
                     }
                 }
                 
                 draw() {
+                    ctx.save();
                     ctx.beginPath();
-                    // Golden/bokeh radial gradient for high-fidelity look
-                    const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-                    gradient.addColorStop(0, `rgba(255, 235, 170, ${this.alpha})`);
-                    gradient.addColorStop(0.3, `rgba(224, 185, 96, ${this.alpha * 0.4})`);
-                    gradient.addColorStop(1, 'rgba(224, 185, 96, 0)');
+                    const gradient = ctx.createRadialGradient(
+                        this.x, this.y, 0,
+                        this.x, this.y, this.size
+                    );
+                    gradient.addColorStop(0, `rgba(232, 210, 175, ${this.alpha * 1.2})`);
+                    gradient.addColorStop(0.4, `rgba(177, 134, 45, ${this.alpha * 0.8})`);
+                    gradient.addColorStop(1, `rgba(177, 134, 45, 0)`);
                     
                     ctx.fillStyle = gradient;
                     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                     ctx.fill();
+                    ctx.restore();
                 }
             }
             
@@ -304,23 +313,87 @@
                 requestAnimationFrame(animate);
             };
             
-            // Start particle animation after hero starts loading
             setTimeout(animate, 200);
         }
 
-        // 8. AJAX Form Handlers (Contact Form & Newsletter Form)
-        const contactForm = document.getElementById('royesh-contact-page-form');
-        if (contactForm && typeof royeshData !== 'undefined') {
-            contactForm.addEventListener('submit', function (e) {
+        // ────────────────────────────────────────────────────────────
+        // 8. Math CAPTCHA Helper & Refresh Handlers
+        // ────────────────────────────────────────────────────────────
+        function setupCaptcha(btnId, questionId, tokenId, answerId) {
+            const btn = document.getElementById(btnId);
+            if (!btn || typeof royeshData === 'undefined') return;
+
+            btn.addEventListener('click', function () {
+                btn.style.opacity = '0.5';
+                const fd = new FormData();
+                fd.append('action', 'royesh_new_captcha');
+                fd.append('nonce', royeshData.nonce);
+
+                fetch(royeshData.ajaxUrl, {
+                    method: 'POST',
+                    body: fd
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success && data.data) {
+                        const qEl = document.getElementById(questionId);
+                        const tEl = document.getElementById(tokenId);
+                        const aEl = document.getElementById(answerId);
+                        if (qEl) qEl.textContent = data.data.question;
+                        if (tEl) tEl.value       = data.data.token;
+                        if (aEl) {
+                            aEl.value = '';
+                            aEl.focus();
+                        }
+                    }
+                })
+                .catch(() => {})
+                .finally(() => {
+                    btn.style.opacity = '1';
+                });
+            });
+        }
+
+        setupCaptcha('royesh-captcha-refresh-home',    'royesh-captcha-question-home',    'royesh-captcha-token-home',    'royesh-captcha-answer-home');
+        setupCaptcha('royesh-captcha-refresh-contact', 'royesh-captcha-question-contact', 'royesh-captcha-token-contact', 'royesh-captcha-answer-contact');
+        setupCaptcha('royesh-captcha-refresh-consult', 'royesh-captcha-question-consult', 'royesh-captcha-token-consult', 'royesh-captcha-answer-consult');
+
+        // Helper to show inline form feedback
+        function displayFeedback(containerId, message, isSuccess) {
+            const box = document.getElementById(containerId);
+            if (!box) {
+                alert(message);
+                return;
+            }
+            box.classList.remove('hidden');
+            box.className = 'col-span-1 md:col-span-2 p-4 rounded-2xl text-sm font-sans block transition-all duration-300 ' + 
+                (isSuccess ? 'bg-[#e8f5f0] text-[#004F40] border border-[#a3d9c9]' : 'bg-[#fff0f0] text-[#b32d2e] border border-[#f5c2c3]');
+            box.innerHTML = '<strong>' + (isSuccess ? '✓ ' : '✕ ') + '</strong> ' + message;
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ────────────────────────────────────────────────────────────
+        // 9. Contact Forms Submission (Front page & Contact page)
+        // ────────────────────────────────────────────────────────────
+        const contactForms = document.querySelectorAll('#royesh-home-contact-form, #royesh-contact-form, #royesh-contact-page-form');
+        contactForms.forEach(form => {
+            if (!form || typeof royeshData === 'undefined') return;
+
+            form.addEventListener('submit', function (e) {
                 e.preventDefault();
-                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const isHomeForm = (form.id === 'royesh-home-contact-form');
+                const feedbackId = isHomeForm ? 'royesh-home-contact-feedback' : 'royesh-contact-feedback';
+                const refreshBtnId = isHomeForm ? 'royesh-captcha-refresh-home' : 'royesh-captcha-refresh-contact';
+
+                const submitBtn = form.querySelector('button[type="submit"]');
                 const origBtnText = submitBtn ? submitBtn.innerText : '';
+
                 if (submitBtn) {
                     submitBtn.disabled = true;
-                    submitBtn.innerText = 'در حال ارسال...';
+                    submitBtn.innerText = 'در حال ارسال پیام...';
                 }
 
-                const formData = new FormData(contactForm);
+                const formData = new FormData(form);
                 formData.append('action', 'royesh_contact_submit');
                 formData.append('nonce', royeshData.nonce);
 
@@ -331,14 +404,28 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert(data.data.message || 'پیام شما با موفقیت ارسال شد.');
-                        contactForm.reset();
+                        displayFeedback(feedbackId, data.data.message || 'پیام شما با موفقیت ارسال شد.', true);
+                        form.reset();
+                        document.getElementById(refreshBtnId)?.click();
                     } else {
-                        alert(data.data.message || 'خطا در ارسال پیام. لطفا مجددا تلاش کنید.');
+                        const errMsg = (data.data && data.data.message) ? data.data.message : 'خطا در ارسال پیام. لطفاً مجدداً بررسی فرمایید.';
+                        displayFeedback(feedbackId, errMsg, false);
+                        
+                        if (data.data && data.data.new_captcha) {
+                            const qEl = isHomeForm ? document.getElementById('royesh-captcha-question-home') : document.getElementById('royesh-captcha-question-contact');
+                            const tEl = isHomeForm ? document.getElementById('royesh-captcha-token-home') : document.getElementById('royesh-captcha-token-contact');
+                            const aEl = isHomeForm ? document.getElementById('royesh-captcha-answer-home') : document.getElementById('royesh-captcha-answer-contact');
+                            if (qEl) qEl.textContent = data.data.new_captcha.question;
+                            if (tEl) tEl.value       = data.data.new_captcha.token;
+                            if (aEl) {
+                                aEl.value = '';
+                                aEl.focus();
+                            }
+                        }
                     }
                 })
                 .catch(() => {
-                    alert('خطای ارتباط با سرور. لطفا اتصال اینترنت خود را بررسی کنید.');
+                    displayFeedback(feedbackId, 'خطای ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی نمایید.', false);
                 })
                 .finally(() => {
                     if (submitBtn) {
@@ -347,8 +434,11 @@
                     }
                 });
             });
-        }
+        });
 
+        // ────────────────────────────────────────────────────────────
+        // 10. Newsletter Form
+        // ────────────────────────────────────────────────────────────
         const newsletterForm = document.getElementById('royesh-newsletter-form');
         if (newsletterForm && typeof royeshData !== 'undefined') {
             newsletterForm.addEventListener('submit', function (e) {
@@ -394,6 +484,9 @@
             });
         }
 
+        // ────────────────────────────────────────────────────────────
+        // 11. Consultation Form Submission
+        // ────────────────────────────────────────────────────────────
         const consultationForm = document.getElementById('royesh-consultation-form');
         if (consultationForm && typeof royeshData !== 'undefined') {
             consultationForm.addEventListener('submit', function (e) {
@@ -417,14 +510,28 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert(data.data.message || 'درخواست مشاوره شما با موفقیت ثبت شد.');
+                        displayFeedback('royesh-consultation-feedback', data.data.message || 'درخواست مشاوره شما با موفقیت ثبت شد.', true);
                         consultationForm.reset();
+                        document.getElementById('royesh-captcha-refresh-consult')?.click();
                     } else {
-                        alert(data.data.message || 'خطا در ثبت درخواست. لطفاً دوباره تلاش فرمایید.');
+                        const errMsg = (data.data && data.data.message) ? data.data.message : 'خطا در ثبت درخواست. لطفاً دوباره تلاش فرمایید.';
+                        displayFeedback('royesh-consultation-feedback', errMsg, false);
+
+                        if (data.data && data.data.new_captcha) {
+                            const qEl = document.getElementById('royesh-captcha-question-consult');
+                            const tEl = document.getElementById('royesh-captcha-token-consult');
+                            const aEl = document.getElementById('royesh-captcha-answer-consult');
+                            if (qEl) qEl.textContent = data.data.new_captcha.question;
+                            if (tEl) tEl.value       = data.data.new_captcha.token;
+                            if (aEl) {
+                                aEl.value = '';
+                                aEl.focus();
+                            }
+                        }
                     }
                 })
                 .catch(() => {
-                    alert('خطای ارتباط با سرور.');
+                    displayFeedback('royesh-consultation-feedback', 'خطای ارتباط با سرور. لطفاً اتصال اینترنت خود را بررسی نمایید.', false);
                 })
                 .finally(() => {
                     if (submitBtn) {
@@ -437,4 +544,3 @@
 
     });
 })();
-

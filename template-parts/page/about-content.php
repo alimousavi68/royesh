@@ -3,16 +3,56 @@
  * About Page Content Template Part
  * 
  * @package Royesh
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
+
+$post_id = get_the_ID();
+
+// مقادیر پویا از متاباکس برگه
+$hero_enable  = royesh_get_page_meta($post_id, '_royesh_hero_enable', '1');
+$hero_badge   = royesh_get_page_meta($post_id, '_royesh_hero_badge', __('همراه رشد شما', 'royesh'));
+$hero_title   = royesh_get_page_meta($post_id, '_royesh_hero_title', get_the_title());
+$hero_desc    = royesh_get_page_meta($post_id, '_royesh_hero_desc', __('تعهد ما، هدایت هوشمندانه سرمایه برای خلق ارزش پایدار و توانمندسازی سازمان‌های پیشرو است.', 'royesh'));
+$hero_bg      = royesh_get_page_meta($post_id, '_royesh_hero_bg_color', '#004F40');
+
+$about_p1     = royesh_get_page_meta($post_id, '_royesh_about_p1', __('موسسه رشد و نوآوری رویش با تکیه بر هم‌افزایی دانش تخصصی و تجربه مدیران ارشد خود، بستری پویا برای توانمندسازی اقتصادی فعالان و نهادهای کسب‌وکار ایجاد کرده است. فلسفه وجودی ما بر پایه سه اصل استوار است: نگاه مسئله‌محور، همراستاسازی منافع و چشم‌انداز آینده‌نگر.', 'royesh'));
+$about_p2     = royesh_get_page_meta($post_id, '_royesh_about_p2', __('هدف ما ایجاد پلی ایمن میان بازارهای سرمایه و نیازهای حقیقی بنگاه‌های اقتصادی است. ما در این مسیر متعهد به شفافیت، پویایی و خروجی‌های ملموس مالی هستیم.', 'royesh'));
+$about_sticky = royesh_get_page_meta($post_id, '_royesh_about_sticky', __('پشتیبانی مستمر | رویش سرمایه', 'royesh'));
+
+// تفکیک متن استیکی به دو بخش
+$sticky_parts = explode('|', $about_sticky);
+$sticky_p1    = trim($sticky_parts[0] ?? 'پشتیبانی مستمر');
+$sticky_p2    = trim($sticky_parts[1] ?? 'رویش سرمایه');
+
+$val_title    = royesh_get_page_meta($post_id, '_royesh_val_title', __('ارزش‌هایی که مسیر حرکت ما را روشن می‌کنند', 'royesh'));
+$val_1_title  = royesh_get_page_meta($post_id, '_royesh_val_1_title', __('نگاه مسئله‌محور', 'royesh'));
+$val_1_desc   = royesh_get_page_meta($post_id, '_royesh_val_1_desc', __('تمرکز کامل بر شناسایی دقیق چالش‌ها و ارائه راهکارهای علمی و ساختاری متناسب با آن‌ها.', 'royesh'));
+$val_2_title  = royesh_get_page_meta($post_id, '_royesh_val_2_title', __('همراستاسازی منافع', 'royesh'));
+$val_2_desc   = royesh_get_page_meta($post_id, '_royesh_val_2_desc', __('خلق مدل‌های اقتصادی پایدار به‌گونه‌ای که منافع تمامی همکاران، سرمایه‌گذاران و ذینفعان تأمین شود.', 'royesh'));
+$val_3_title  = royesh_get_page_meta($post_id, '_royesh_val_3_title', __('آینده‌نگری مالی', 'royesh'));
+$val_3_desc   = royesh_get_page_meta($post_id, '_royesh_val_3_desc', __('استفاده از ابزارهای تکنولوژی و مدل‌سازی نوین برای تضمین رشد و پاسخگویی به چالش‌های اقتصادی آینده.', 'royesh'));
+
+$tl_title     = royesh_get_page_meta($post_id, '_royesh_tl_title', __('گاه‌شمار توسعه رویش', 'royesh'));
+$tl_1_year    = royesh_get_page_meta($post_id, '_royesh_tl_1_year', '۱۳۹۸');
+$tl_1_title   = royesh_get_page_meta($post_id, '_royesh_tl_1_title', __('تأسیس و شروع مأموریت', 'royesh'));
+$tl_1_desc    = royesh_get_page_meta($post_id, '_royesh_tl_1_desc', __('راه‌اندازی هسته اولیه رشد رویش با تمرکز بر مشاوره سرمایه‌گذاری خطرپذیر و شتابدهی استارتاپ‌ها.', 'royesh'));
+
+$tl_2_year    = royesh_get_page_meta($post_id, '_royesh_tl_2_year', '۱۴۰۱');
+$tl_2_title   = royesh_get_page_meta($post_id, '_royesh_tl_2_title', __('توسعه خدمات اعتباری و مالی', 'royesh'));
+$tl_2_desc    = royesh_get_page_meta($post_id, '_royesh_tl_2_desc', __('ورود به حوزه خدمات نوین اعتباری و همکاری استراتژیک با بانک‌ها و نهادهای مالی بزرگ کشور.', 'royesh'));
+
+$tl_3_year    = royesh_get_page_meta($post_id, '_royesh_tl_3_year', '۱۴۰۵');
+$tl_3_title   = royesh_get_page_meta($post_id, '_royesh_tl_3_title', __('تحول دیجیتال و سبدهای دارایی اختصاصی', 'royesh'));
+$tl_3_desc    = royesh_get_page_meta($post_id, '_royesh_tl_3_desc', __('راه‌اندازی مدل‌های پیشرفته مدیریت دارایی و نقدینگی بر بستر تکنولوژی‌های پیشرفته تحلیل داده.', 'royesh'));
 ?>
 
+<?php if ($hero_enable !== '0') : ?>
 <!-- HERO SECTION -->
-<section class="relative w-full bg-[#004F40] py-20 px-4 md:px-12 overflow-hidden border-b border-[#2E7063]">
+<section class="relative w-full py-20 px-4 md:px-12 overflow-hidden border-b border-[#2E7063] bg-[#004F40]" style="background-color: <?php echo esc_attr(!empty($hero_bg) && $hero_bg !== '#ffffff' ? $hero_bg : '#004F40'); ?>;">
     <div class="absolute inset-0 opacity-100 pointer-events-none select-none z-0">
         <img src="<?php echo royesh_asset_img('bg vector patt.svg'); ?>" alt="Pattern" class="w-full h-full object-cover" />
     </div>
@@ -20,13 +60,14 @@ if (!defined('ABSPATH')) {
     <div class="absolute bottom-[5%] right-[5%] w-[250px] h-[250px] rounded-full bg-[#B1862D]/10 blur-[80px] pointer-events-none z-0"></div>
 
     <div class="max-w-[1150px] mx-auto relative z-10 text-center text-white">
-        <span class="text-[#B1862D] text-sm md:text-base font-bold tracking-wider block mb-3 font-sans"><?php esc_html_e('همراه رشد شما', 'royesh'); ?></span>
-        <h1 class="text-3xl md:text-5xl font-black leading-tight mb-6"><?php esc_html_e('درباره گروه اقتصادی رویش', 'royesh'); ?></h1>
+        <span class="text-[#B1862D] text-sm md:text-base font-bold tracking-wider block mb-3 font-sans"><?php echo esc_html($hero_badge); ?></span>
+        <h1 class="text-3xl md:text-5xl font-black leading-tight mb-6"><?php echo esc_html($hero_title); ?></h1>
         <p class="text-white/80 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-light">
-            <?php esc_html_e('تعهد ما، هدایت هوشمندانه سرمایه برای خلق ارزش پایدار و توانمندسازی سازمان‌های پیشرو است.', 'royesh'); ?>
+            <?php echo esc_html($hero_desc); ?>
         </p>
     </div>
 </section>
+<?php endif; ?>
 
 <!-- INTRO & PHILOSOPHY SECTION -->
 <section class="w-full py-20 bg-white">
@@ -42,10 +83,10 @@ if (!defined('ABSPATH')) {
                 <h2 class="text-3xl font-extrabold text-[#014235] leading-none"><?php esc_html_e('فلسفه برند و مأموریت ما', 'royesh'); ?></h2>
             </div>
             <p class="text-[#333333] text-base leading-relaxed mb-6 text-justify">
-                <?php esc_html_e('موسسه رشد و نوآوری رویش با تکیه بر هم‌افزایی دانش تخصصی و تجربه مدیران ارشد خود، بستری پویا برای توانمندسازی اقتصادی فعالان و نهادهای کسب‌وکار ایجاد کرده است. فلسفه وجودی ما بر پایه سه اصل استوار است: نگاه مسئله‌محور، همراستاسازی منافع و چشم‌انداز آینده‌نگر.', 'royesh'); ?>
+                <?php echo nl2br(esc_html($about_p1)); ?>
             </p>
             <p class="text-[#333333] text-base leading-relaxed text-justify mb-8">
-                <?php esc_html_e('هدف ما ایجاد پلی ایمن میان بازارهای سرمایه و نیازهای حقیقی بنگاه‌های اقتصادی است. ما در این مسیر متعهد به شفافیت، پویایی و خروجی‌های ملموس مالی هستیم.', 'royesh'); ?>
+                <?php echo nl2br(esc_html($about_p2)); ?>
             </p>
         </div>
 
@@ -72,12 +113,12 @@ if (!defined('ABSPATH')) {
 
                 <div class="w-[240px] sm:w-[280px] lg:w-[304px] h-[80px] sm:h-[95px] lg:h-[106px] bg-[#004F40] flex flex-col justify-center px-4 lg:px-6 rounded-tl-none rounded-tr-full rounded-br-full rounded-bl-full shadow-xl text-left items-start v-reveal v-reveal-fade-up v-delay-400">
                     <span class="text-[#E8D2AF] text-[18px] sm:text-[20px] lg:text-[22px] font-extrabold tracking-tight w-full text-left">
-                        <?php esc_html_e('پشتیبانی', 'royesh'); ?> <span class="text-white"><?php esc_html_e('مستمر', 'royesh'); ?></span>
+                        <?php echo esc_html($sticky_p1); ?>
                     </span>
                     <div class="flex items-center gap-2 mt-1 w-full overflow-hidden flex-row-reverse">
                         <div class="flex-grow border-b border-dashed border-[#C9C9C9] opacity-70"></div>
                         <span class="text-white text-[14px] sm:text-[16px] lg:text-[18px] font-normal flex-shrink-0 text-left">
-                            <?php esc_html_e('رویش سرمایه', 'royesh'); ?>
+                            <?php echo esc_html($sticky_p2); ?>
                         </span>
                     </div>
                 </div>
@@ -91,7 +132,7 @@ if (!defined('ABSPATH')) {
 <section class="w-full bg-[#FAF8F4] py-20 border-t border-b border-[#EBE5D7]/50">
     <div class="max-w-[1150px] mx-auto px-6 md:px-12 text-center">
         <span class="text-[#B1862D] font-bold text-sm block mb-2"><?php esc_html_e('ارزش‌های بنیادین', 'royesh'); ?></span>
-        <h2 class="text-3xl font-extrabold text-[#014235] mb-12"><?php esc_html_e('ارزش‌هایی که مسیر حرکت ما را روشن می‌کنند', 'royesh'); ?></h2>
+        <h2 class="text-3xl font-extrabold text-[#014235] mb-12"><?php echo esc_html($val_title); ?></h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="bg-white border border-[#EBE5D7]/60 rounded-[24px] p-8 text-right shadow-sm hover:shadow-md transition-all duration-300 v-reveal v-reveal-fade-up v-delay-100">
@@ -100,8 +141,8 @@ if (!defined('ABSPATH')) {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-black mb-3"><?php esc_html_e('نگاه مسئله‌محور', 'royesh'); ?></h3>
-                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php esc_html_e('تمرکز کامل بر شناسایی دقیق چالش‌ها و ارائه راهکارهای علمی و ساختاری متناسب با آن‌ها.', 'royesh'); ?></p>
+                <h3 class="text-xl font-bold text-black mb-3"><?php echo esc_html($val_1_title); ?></h3>
+                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php echo esc_html($val_1_desc); ?></p>
             </div>
 
             <div class="bg-white border border-[#EBE5D7]/60 rounded-[24px] p-8 text-right shadow-sm hover:shadow-md transition-all duration-300 v-reveal v-reveal-fade-up v-delay-200">
@@ -110,8 +151,8 @@ if (!defined('ABSPATH')) {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-black mb-3"><?php esc_html_e('همراستاسازی منافع', 'royesh'); ?></h3>
-                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php esc_html_e('خلق مدل‌های اقتصادی پایدار به‌گونه‌ای که منافع تمامی همکاران، سرمایه‌گذاران و ذینفعان تأمین شود.', 'royesh'); ?></p>
+                <h3 class="text-xl font-bold text-black mb-3"><?php echo esc_html($val_2_title); ?></h3>
+                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php echo esc_html($val_2_desc); ?></p>
             </div>
 
             <div class="bg-white border border-[#EBE5D7]/60 rounded-[24px] p-8 text-right shadow-sm hover:shadow-md transition-all duration-300 v-reveal v-reveal-fade-up v-delay-300">
@@ -120,8 +161,8 @@ if (!defined('ABSPATH')) {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-black mb-3"><?php esc_html_e('آینده‌نگری مالی', 'royesh'); ?></h3>
-                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php esc_html_e('استفاده از ابزارهای تکنولوژی و مدل‌سازی نوین برای تضمین رشد و پاسخگویی به چالش‌های اقتصادی آینده.', 'royesh'); ?></p>
+                <h3 class="text-xl font-bold text-black mb-3"><?php echo esc_html($val_3_title); ?></h3>
+                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php echo esc_html($val_3_desc); ?></p>
             </div>
         </div>
     </div>
@@ -132,30 +173,31 @@ if (!defined('ABSPATH')) {
     <div class="max-w-[800px] mx-auto px-6 md:px-12">
         <div class="text-center mb-16">
             <span class="text-[#B1862D] font-bold text-sm block mb-2"><?php esc_html_e('مسیر بالندگی', 'royesh'); ?></span>
-            <h2 class="text-3xl font-extrabold text-[#014235]"><?php esc_html_e('گاه‌شمار توسعه رویش', 'royesh'); ?></h2>
+            <h2 class="text-3xl font-extrabold text-[#014235]"><?php echo esc_html($tl_title); ?></h2>
         </div>
 
         <div class="relative border-r-2 border-[#EBE5D7] mr-4 md:mr-8 pr-8 flex flex-col gap-12 text-right">
             <div class="relative v-reveal v-reveal-fade-right v-delay-100">
                 <div class="absolute top-1.5 -right-[41px] w-5 h-5 rounded-full bg-[#B1862D] border-4 border-white shadow-sm"></div>
-                <span class="text-sm font-bold text-[#B1862D] block mb-1"><?php esc_html_e('۱۳۹۸', 'royesh'); ?></span>
-                <h3 class="text-lg font-bold text-black mb-2"><?php esc_html_e('تأسیس و شروع مأموریت', 'royesh'); ?></h3>
-                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php esc_html_e('راه‌اندازی هسته اولیه رشد رویش با تمرکز بر مشاوره سرمایه‌گذاری خطرپذیر و شتابدهی استارتاپ‌ها.', 'royesh'); ?></p>
+                <span class="text-sm font-bold text-[#B1862D] block mb-1"><?php echo esc_html($tl_1_year); ?></span>
+                <h3 class="text-lg font-bold text-black mb-2"><?php echo esc_html($tl_1_title); ?></h3>
+                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php echo esc_html($tl_1_desc); ?></p>
             </div>
 
             <div class="relative v-reveal v-reveal-fade-right v-delay-200">
                 <div class="absolute top-1.5 -right-[41px] w-5 h-5 rounded-full bg-[#014235] border-4 border-white shadow-sm"></div>
-                <span class="text-sm font-bold text-[#B1862D] block mb-1"><?php esc_html_e('۱۴۰۱', 'royesh'); ?></span>
-                <h3 class="text-lg font-bold text-black mb-2"><?php esc_html_e('توسعه خدمات اعتباری و مالی', 'royesh'); ?></h3>
-                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php esc_html_e('ورود به حوزه خدمات نوین اعتباری و همکاری استراتژیک با بانک‌ها و نهادهای مالی بزرگ کشور.', 'royesh'); ?></p>
+                <span class="text-sm font-bold text-[#B1862D] block mb-1"><?php echo esc_html($tl_2_year); ?></span>
+                <h3 class="text-lg font-bold text-black mb-2"><?php echo esc_html($tl_2_title); ?></h3>
+                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php echo esc_html($tl_2_desc); ?></p>
             </div>
 
             <div class="relative v-reveal v-reveal-fade-right v-delay-300">
                 <div class="absolute top-1.5 -right-[41px] w-5 h-5 rounded-full bg-[#B1862D] border-4 border-white shadow-sm"></div>
-                <span class="text-sm font-bold text-[#B1862D] block mb-1"><?php esc_html_e('۱۴۰۵', 'royesh'); ?></span>
-                <h3 class="text-lg font-bold text-black mb-2"><?php esc_html_e('تحول دیجیتال و سبدهای دارایی اختصاصی', 'royesh'); ?></h3>
-                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php esc_html_e('راه‌اندازی مدل‌های پیشرفته مدیریت دارایی و نقدینگی بر بستر تکنولوژی‌های پیشرفته تحلیل داده.', 'royesh'); ?></p>
+                <span class="text-sm font-bold text-[#B1862D] block mb-1"><?php echo esc_html($tl_3_year); ?></span>
+                <h3 class="text-lg font-bold text-black mb-2"><?php echo esc_html($tl_3_title); ?></h3>
+                <p class="text-gray-600 text-sm leading-relaxed font-light"><?php echo esc_html($tl_3_desc); ?></p>
             </div>
         </div>
     </div>
 </section>
+

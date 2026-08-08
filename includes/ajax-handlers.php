@@ -3,7 +3,7 @@
  * AJAX Form Processors & Handlers
  *
  * @package Royesh
- * @version 1.1.0
+ * @version 1.2.0
  */
 
 if (!defined('ABSPATH')) {
@@ -16,7 +16,8 @@ if (!defined('ABSPATH')) {
 
 function royesh_handle_contact_submit() {
     // ۱. Nonce
-    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'royesh_nonce_action')) {
+    $nonce = $_POST['nonce'] ?? $_POST['royesh_contact_nonce'] ?? '';
+    if (empty($nonce) || !wp_verify_nonce($nonce, 'royesh_nonce_action')) {
         wp_send_json_error(['message' => __('خطای اعتبارسنجی امنیتی. لطفا صفحه را مجددا بارگذاری کنید.', 'royesh')], 403);
     }
 
@@ -29,7 +30,10 @@ function royesh_handle_contact_submit() {
     $captcha_token  = isset($_POST['captcha_token'])  ? sanitize_text_field($_POST['captcha_token'])  : '';
     $captcha_answer = isset($_POST['captcha_answer']) ? sanitize_text_field($_POST['captcha_answer']) : '';
     if (!royesh_verify_captcha($captcha_token, $captcha_answer)) {
-        wp_send_json_error(['message' => __('پاسخ کپچا اشتباه است. لطفاً دوباره تلاش کنید.', 'royesh')], 400);
+        wp_send_json_error([
+            'message'     => __('پاسخ کد امنیتی اشتباه است. لطفاً دوباره تلاش کنید.', 'royesh'),
+            'new_captcha' => royesh_generate_captcha(),
+        ], 400);
     }
 
     // ۴. Rate Limiting (حداکثر ۳ ارسال در ۱۵ دقیقه)
@@ -69,7 +73,10 @@ function royesh_handle_contact_submit() {
         error_log('Royesh Mailer Failure: contact form for ' . $name);
     }
 
-    wp_send_json_success(['message' => __('پیام شما با موفقیت دریافت شد. کارشناسان ما به زودی با شما تماس خواهند گرفت.', 'royesh')]);
+    wp_send_json_success([
+        'message'     => __('پیام شما با موفقیت دریافت شد. کارشناسان ما به زودی با شما تماس خواهند گرفت.', 'royesh'),
+        'new_captcha' => royesh_generate_captcha(),
+    ]);
 }
 add_action('wp_ajax_royesh_contact_submit',        'royesh_handle_contact_submit');
 add_action('wp_ajax_nopriv_royesh_contact_submit', 'royesh_handle_contact_submit');
@@ -120,7 +127,10 @@ function royesh_handle_consultation_submit() {
     $captcha_token  = isset($_POST['captcha_token'])  ? sanitize_text_field($_POST['captcha_token'])  : '';
     $captcha_answer = isset($_POST['captcha_answer']) ? sanitize_text_field($_POST['captcha_answer']) : '';
     if (!royesh_verify_captcha($captcha_token, $captcha_answer)) {
-        wp_send_json_error(['message' => __('پاسخ کپچا اشتباه است. لطفاً دوباره تلاش کنید.', 'royesh')], 400);
+        wp_send_json_error([
+            'message'     => __('پاسخ کد امنیتی اشتباه است. لطفاً دوباره تلاش کنید.', 'royesh'),
+            'new_captcha' => royesh_generate_captcha(),
+        ], 400);
     }
 
     // ۴. Rate Limiting
@@ -161,7 +171,10 @@ function royesh_handle_consultation_submit() {
         error_log('Royesh Consultation Mailer Failure for ' . $name);
     }
 
-    wp_send_json_success(['message' => __('درخواست مشاوره شما با موفقیت ثبت شد. کارشناسان ما به زودی با شما تماس خواهند گرفت.', 'royesh')]);
+    wp_send_json_success([
+        'message'     => __('درخواست مشاوره شما با موفقیت ثبت شد. کارشناسان ما به زودی با شما تماس خواهند گرفت.', 'royesh'),
+        'new_captcha' => royesh_generate_captcha(),
+    ]);
 }
 add_action('wp_ajax_royesh_consultation_submit',        'royesh_handle_consultation_submit');
 add_action('wp_ajax_nopriv_royesh_consultation_submit', 'royesh_handle_consultation_submit');
